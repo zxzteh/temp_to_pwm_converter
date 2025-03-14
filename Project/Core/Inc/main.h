@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "onewire.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -63,6 +63,8 @@ void Error_Handler(void);
 #define TIM_MEASURE htim16
 #define UART_DEBUG huart1
 #define UART_1WIRE huart2
+#define DEBUG_PIN_Pin GPIO_PIN_5
+#define DEBUG_PIN_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
