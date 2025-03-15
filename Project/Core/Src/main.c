@@ -108,11 +108,17 @@ int main(void)
   MX_CRC_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_PWM_Start(&TIM_PWM, TIM_CHANNEL_1);
-  HAL_TIM_OC_Start_IT(&TIM_MEASURE, TIM_CHANNEL_1);
-  HAL_TIM_OC_Start_IT(&TIM_MEASURE, TIM_CHANNEL_2);
 
-  ds18b20_init(&UART_ONE_WIRE);
+
+  while (ds18b20_init(&UART_ONE_WIRE)) {
+	  HAL_Delay(1000);
+	  debug_print(ERR, "Trying to reinit . . .");
+  }
+
+
+  HAL_TIM_PWM_Start(&TIM_PWM, TIM_CHANNEL_1);
+  HAL_TIM_OC_Start_IT(&TIM_MEASURE, TIM_CHANNEL_2);
+  HAL_TIM_OC_Start_IT(&TIM_MEASURE, TIM_CHANNEL_1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -342,9 +348,9 @@ static void MX_TIM14_Init(void)
 
   /* USER CODE END TIM14_Init 1 */
   htim14.Instance = TIM14;
-  htim14.Init.Prescaler = 0;
+  htim14.Init.Prescaler = 5-1;
   htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim14.Init.Period = 50000-1;
+  htim14.Init.Period = 10000-1;
   htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim14.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim14) != HAL_OK)
@@ -356,7 +362,7 @@ static void MX_TIM14_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 25000;
+  sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim14, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
@@ -491,19 +497,15 @@ static void touch_grass() {
 }
 
 void float_to_str(float value, char *buffer, uint8_t precision) {
-    int integer_part = (int)value;
-    float fractional_part = value - integer_part;
-
-    // Преобразуем целую часть
-    sprintf(buffer, "%d.", integer_part);
-
-    // Преобразуем дробную часть
+    int int_part = (int)value;
+    float frac_part = value - int_part;
+    sprintf(buffer, "%d.", int_part);
     for (uint8_t i = 0; i < precision; i++) {
-        fractional_part *= 10;
-        buffer[strlen(buffer)] = '0' + (int)fractional_part;
-        fractional_part -= (int)fractional_part;
+    	frac_part *= 10;
+        buffer[strlen(buffer)] = '0' + (int)frac_part;
+        frac_part -= (int)frac_part;
     }
-    buffer[strlen(buffer)] = '\0';  // Завершаем строку
+    buffer[strlen(buffer)] = '\0';
 }
 
 /* USER CODE END 4 */

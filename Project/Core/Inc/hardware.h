@@ -12,6 +12,7 @@
 #include "debug_logger.h"
 
 extern TIM_HandleTypeDef TIM_MEASURE;
+extern TIM_HandleTypeDef TIM_PWM;
 extern UART_HandleTypeDef UART_DEBUG;
 extern CRC_HandleTypeDef CRC_UNIT;
 

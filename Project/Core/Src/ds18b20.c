@@ -46,45 +46,42 @@ void ds18b20_read_temperature_request() {
 		one_wire_write_byte(CMD_SKIP_ROM);
 		one_wire_write_byte(CMD_CONVERT_T);
 		sensor.sensorState = SENSOR_STATE_CONVERSION;
+	} else {
+		sensor.sensorError = SENSOR_TIMING_ERROR;
 	}
 }
 
 void ds18b20_read_temperature_callback() {
-	if (sensor.sensorState == SENSOR_STATE_CONVERSION) {
-		uint8_t buffer[SCRATCHPAD_SIZE] = {};
-		uint16_t temp_val = 0;
-		uint16_t mask = 0xFFF;
-		one_wire_reset_presence();
-		one_wire_write_byte(CMD_SKIP_ROM);
-		one_wire_write_byte(CMD_READ_SCRATCHPAD);
-		for (uint8_t i = 0; i < SCRATCHPAD_SIZE; i ++) {
-			buffer[i] = one_wire_read_byte();
-		}
-		if (!ds18b20_check_crc(buffer, sizeof(buffer))) {
-			temp_val = ( buffer[0] | (buffer[1] << 8) ) & mask;
-			sensor.data = ds18b20_convert_temp(temp_val);
-			sensor.sensorState = SENSOR_STATE_DATA_READY;
-		}
+	if (sensor.sensorState != SENSOR_STATE_CONVERSION) {
+		sensor.sensorError = SENSOR_TIMING_ERROR;
+		return;
+	}
+
+	uint8_t buffer[SCRATCHPAD_SIZE] = {};
+	uint16_t temp_val = 0;
+	uint16_t mask = 0xFFF;
+	one_wire_reset_presence();
+
+	ds18b20_read_scratchpad(buffer);
+	if (!ds18b20_check_crc(buffer, sizeof(buffer))) {
+		temp_val = ( buffer[0] | (buffer[1] << 8) ) & mask;
+		sensor.data = ds18b20_convert_temp(temp_val);
+		sensor.sensorState = SENSOR_STATE_DATA_READY;
+	} else {
+		sensor.sensorError = SENSOR_CRC_ERROR;
 	}
 }
 
 uint8_t sensor_get_temp(float* data) {
-	if (sensor.sensorState == SENSOR_STATE_DATA_READY) {
+	if (sensor.sensorState == SENSOR_STATE_DATA_READY && sensor.sensorError == SENSOR_OK) {
 		*data = sensor.data;
 		sensor.data = 0.0f;
 		sensor.sensorState = SENSOR_STATE_IDLE;
 		return 0;
 	} else {
+		sensor.sensorError = SENSOR_OK;
 		return 1;
 	}
-}
-
-SensorState sensor_get_state() {
-	return sensor.sensorState;
-}
-
-void sensor_set_error(SensorError error_code) {
-	sensor.sensorError = error_code;
 }
 
 static void ds18b20_read_rom(uint8_t* data) {
@@ -108,7 +105,7 @@ static uint8_t ds18b20_check_crc(uint8_t* data, uint8_t len) {
 	return (real_crc != expected_crc);
 }
 
-static uint8_t ds18b20_calculate_crc_sw(uint8_t* data, uint8_t len) {
+static uint8_t __attribute__((unused)) ds18b20_calculate_crc_sw(uint8_t* data, uint8_t len) {
 	uint8_t crc = 0;
 	while (len--) {
 		uint8_t byte = *data++;
