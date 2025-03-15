@@ -59,10 +59,11 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define TIM_PWM htim14
-#define TIM_MEASURE htim16
-#define UART_DEBUG huart1
 #define UART_1WIRE huart2
+#define TIM_PWM htim14
+#define UART_DEBUG huart1
+#define TIM_MEASURE htim16
+#define CRC_UNIT hcrc
 #define DEBUG_PIN_Pin GPIO_PIN_5
 #define DEBUG_PIN_GPIO_Port GPIOA
 

@@ -8,10 +8,12 @@
 #ifndef INC_HARDWARE_H_
 #define INC_HARDWARE_H_
 
-#include "stm32g0xx_hal.h"
 #include "main.h"
+#include "debug_logger.h"
 
 extern TIM_HandleTypeDef TIM_MEASURE;
+extern UART_HandleTypeDef UART_DEBUG;
+extern CRC_HandleTypeDef CRC_UNIT;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 

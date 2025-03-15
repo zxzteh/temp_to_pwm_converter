@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include "stm32g0xx_hal.h"
 #include "hardware.h"
+#include "debug_logger.h"
 
 #define ONE_WIRE_UART_TIMEOUT 10
 
@@ -25,9 +26,6 @@
 
 uint8_t one_wire_init(UART_HandleTypeDef* uart);
 uint8_t one_wire_deinit(UART_HandleTypeDef* uart);
-
-uint8_t one_wire_set_fast();
-uint8_t one_wire_set_slow();
 
 uint8_t one_wire_reset_presence();
 uint8_t one_wire_write_byte(uint8_t data);
