@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "onewire.h"
+#include "ds18b20.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -55,15 +55,15 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void float_to_str(float value, char *buffer, uint8_t precision);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define UART_1WIRE huart2
+#define UART_ONE_WIRE huart2
 #define TIM_PWM htim14
 #define UART_DEBUG huart1
-#define TIM_MEASURE htim16
 #define CRC_UNIT hcrc
+#define TIM_MEASURE htim1
 #define DEBUG_PIN_Pin GPIO_PIN_5
 #define DEBUG_PIN_GPIO_Port GPIOA
 

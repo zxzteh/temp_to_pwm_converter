@@ -8,30 +8,22 @@
 #include "hardware.h"
 #include "ds18b20.h"
 
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
-	if (htim == &TIM_MEASURE) {  //  1s elapsed
-		one_wire_reset_presence();
-		one_wire_write_byte(CMD_READ_ROM);
-//		one_wire_write_byte(CMD_READ_SCRATCHPAD);
-
-		uint8_t data[10];
-		for(uint8_t i = 0; i < 8; i++) {
-			data[i] = one_wire_read_byte();
+void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
+    if (htim == &TIM_MEASURE && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) {  //  800 ms elapsed
+    	ds18b20_read_temperature_callback();
+		float temp = 0.0f;
+		if ( !sensor_get_temp(&temp) ) {
+			char temp_string[128] = {};
+			float_to_str(temp, temp_string, 2);
+			debug_print(INF, "temp = %s degrees", temp_string);
 		}
-
-		for(uint8_t i = 0; i < 8; i++) {
-			debug_print(INF, "n%d = %x", i, data[i]);
-		}
-		HAL_GPIO_TogglePin(DEBUG_PIN_GPIO_Port, DEBUG_PIN_Pin);
-		uint8_t crc = ds18b20_calculate_crc_hw(data, 7);
-		HAL_GPIO_TogglePin(DEBUG_PIN_GPIO_Port, DEBUG_PIN_Pin);
-		debug_print(INF, "crc = %x", crc);
-
-		debug_print(INF, "Callback end!");
     }
 
+    if (htim == &TIM_MEASURE && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2) {  //  1000 ms elapsed
+    	ds18b20_read_temperature_request();
+    }
 }
+
 
 uint8_t calculate_crc_hw(uint8_t* data, uint8_t len) {
     __HAL_CRC_DR_RESET(&CRC_UNIT);

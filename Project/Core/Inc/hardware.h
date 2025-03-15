@@ -16,5 +16,6 @@ extern UART_HandleTypeDef UART_DEBUG;
 extern CRC_HandleTypeDef CRC_UNIT;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+uint8_t calculate_crc_hw(uint8_t* data, uint8_t len);
 
 #endif /* INC_HARDWARE_H_ */
