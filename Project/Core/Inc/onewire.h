@@ -15,8 +15,8 @@
 
 #define ONE_WIRE_UART_TIMEOUT 10
 
-#define ONE_WIRE_RESET 		0xF0
-#define ONE_WIRE_PRESENCE 	0xC0
+#define ONE_WIRE_RESET 		    0xF0
+#define ONE_WIRE_PRESENCE 		0xC0
 
 
 #define ONE_WIRE_WRITE_1 	0xFF

@@ -9,8 +9,14 @@
 #include "ds18b20.h"
 
 static void set_pwm(float temperature) {
-	temperature *= 100;  //  shifting out two digits from comma
 	uint16_t pulse_val = (uint16_t)temperature;
+	if (temperature <= 0) {
+		pulse_val =	0;
+	} else if (temperature >= 100) {
+		pulse_val =	TIM_PWM.Instance->ARR + 1;  //  never go zero
+	} else {
+		pulse_val = temperature*100;  //  shifting out two digits from comma
+	}
 	TIM_PWM.Instance->CCR1 = pulse_val;
 }
 

@@ -111,8 +111,8 @@ int main(void)
 
 
   while (ds18b20_init(&UART_ONE_WIRE)) {
-	  HAL_Delay(1000);
 	  debug_print(ERR, "Trying to reinit . . .");
+	  HAL_Delay(100);  //  watchdog will do
   }
 
 
@@ -497,11 +497,15 @@ static void touch_grass() {
 }
 
 void float_to_str(float value, char *buffer, uint8_t precision) {
+    uint8_t is_negative = (value < 0);
+    if (is_negative) {
+        value = -value;
+    }
     int int_part = (int)value;
     float frac_part = value - int_part;
-    sprintf(buffer, "%d.", int_part);
+    sprintf(buffer, "%s%d.", is_negative ? "-" : "", int_part);
     for (uint8_t i = 0; i < precision; i++) {
-    	frac_part *= 10;
+        frac_part *= 10;
         buffer[strlen(buffer)] = '0' + (int)frac_part;
         frac_part -= (int)frac_part;
     }
