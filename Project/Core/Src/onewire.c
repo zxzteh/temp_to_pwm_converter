@@ -26,12 +26,13 @@ uint8_t one_wire_deinit(UART_HandleTypeDef* uart);
 uint8_t one_wire_reset_presence() {
 	if (one_wire_uart_ == NULL) return 1;
 
-	uint8_t buffer[1] = { ONE_WIRE_RESET };
+	uint8_t tx_buffer[1] = { ONE_WIRE_RESET };
+	uint8_t rx_buffer[1] = { 0 };
 	one_wire_set_slow();
-	HAL_UART_Transmit(one_wire_uart_, buffer, sizeof(uint8_t), ONE_WIRE_UART_TIMEOUT);
-	HAL_UART_Receive(one_wire_uart_, buffer, sizeof(uint8_t), ONE_WIRE_UART_TIMEOUT);
+	HAL_UART_Transmit(one_wire_uart_, tx_buffer, sizeof(uint8_t), ONE_WIRE_UART_TIMEOUT);
+	HAL_UART_Receive(one_wire_uart_, rx_buffer, sizeof(uint8_t), ONE_WIRE_UART_TIMEOUT);
 	one_wire_set_fast();
-	return (buffer[0] != ONE_WIRE_PRESENCE);
+	return (rx_buffer[0] == tx_buffer[0]);
 }
 
 uint8_t one_wire_write_byte(uint8_t data) {
@@ -82,7 +83,7 @@ static uint8_t one_wire_write_bit(uint8_t bit) {
 static uint8_t one_wire_read_bit() {
 	uint8_t tx_buffer[1] = { ONE_WIRE_READ };
 	uint8_t rx_buffer[1] = { 0 };
-	uint8_t mask = 0x0E;
+	uint8_t mask = 0x06;
 	uint8_t read_val = 0;
 	HAL_UART_Transmit(one_wire_uart_, tx_buffer, sizeof(uint8_t), ONE_WIRE_UART_TIMEOUT);
 	HAL_UART_Receive(one_wire_uart_, rx_buffer, sizeof(uint8_t), ONE_WIRE_UART_TIMEOUT);
