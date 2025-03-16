@@ -38,8 +38,9 @@ The system outputs the temperature reading to the serial port for monitoring and
 
 The following graphs illustrate the performance and behavior of the temperature-to-PWM converter under various conditions.
 
-### 1. All Captures
-Experiment took about 10 minutes with several conditions: room temperature -> freezer camera -> under heat gun -> room temperature.
+### 1. Whole Capture
+Experiment took about 10 minutes with several conditions: 
+room temperature -> freezer camera -> under heat gun -> room temperature.
 
 ![All Captures](Tests/all_capture.png)
 
