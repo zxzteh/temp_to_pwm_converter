@@ -34,4 +34,48 @@ The system outputs the temperature reading to the serial port for monitoring and
 
 ![Pictures](Pictures/serial_out.jpg)
 
+## Experimental Results and Graphs
+
+The following graphs illustrate the performance and behavior of the temperature-to-PWM converter under various conditions.
+
+### 1. All Captures
+Experiment took about 10 minutes with several conditions: room temperature -> freezer camera -> under heat gun -> room temperature.
+
+![All Captures](Tests/all_capture.png)
+
+### 2. Room Temperature
+
+![Room Temperature](Tests/room_temp.png)
+
+### 3. Zero Pass
+Temperature passes below 0°C.
+
+![Zero Pass](Tests/zero_pass.png)
+
+### 4. Zero Interval
+Behavior during a below zero temperature interval.
+
+![Zero Interval](Tests/zero_interval.png)
+
+### 5. 100°C Pass Up
+Temperature passes above 100°C.
+
+![100°C Pass Up](Tests/100_pass_up.png)
+
+### 6. 100°C Pass Down
+Temperature passes below 100°C.
+
+![100°C Pass Down](Tests/100_pass_down.png)
+
+### 7. Around 50°C
+
+![Around 50°C](Tests/around_50.png)
+
+### 8. Back to Room Temperature
+
+![Around 30°C](Tests/around_30.png)
+
+## Analysis
+The graphs confirm that the system operates as expected, with the PWM duty cycle scaling linearly with temperature. The system accurately responds to temperature changes, maintaining stability across the entire range from 0°C to 100°C.
+
 
