@@ -17,7 +17,7 @@ Below is the schematic diagram illustrating the connections on STM32 microcontro
 ### Prototype:
 The following image shows the physical setup of the project, including the STM32 microcontroller and the DS18B20 sensor connected on a breadboard.
 
-<img src="Pictures/mock_build.jpg" alt="Prototype" width="500" />
+<img src="Pictures/mock_build.jpg" alt="Prototype" width="500" height="600" /> <img src="Pictures/DS18B20.jpg" alt="Prototype" width="500" height="600"/>
 
 ## Software Implementation
 
