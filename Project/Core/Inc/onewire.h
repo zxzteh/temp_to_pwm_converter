@@ -18,14 +18,13 @@
 #define ONE_WIRE_RESET 		    0xF0
 #define ONE_WIRE_PRESENCE 		0xC0
 
-
 #define ONE_WIRE_WRITE_1 	0xFF
 #define ONE_WIRE_WRITE_0 	0xE0
 
 #define ONE_WIRE_READ		0xFF
 
-uint8_t one_wire_init(UART_HandleTypeDef* uart);
-uint8_t one_wire_deinit(UART_HandleTypeDef* uart);
+uint8_t one_wire_init(UART_HandleTypeDef *uart);
+uint8_t one_wire_deinit(UART_HandleTypeDef *uart);
 
 uint8_t one_wire_reset_presence();
 uint8_t one_wire_write_byte(uint8_t data);

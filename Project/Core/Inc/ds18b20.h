@@ -29,31 +29,27 @@
 #define CRC8_POLYNOMIAL 0x31
 
 typedef enum {
-	SENSOR_STATE_NA,
-	SENSOR_STATE_IDLE,
-	SENSOR_STATE_CONVERSION,
-	SENSOR_STATE_DATA_READY
+    SENSOR_STATE_NA,
+    SENSOR_STATE_IDLE,
+    SENSOR_STATE_CONVERSION,
+    SENSOR_STATE_DATA_READY
 } SensorState;
 
 typedef enum {
-	SENSOR_OK,
-	SENSOR_TIMING_ERROR,
-	SENSOR_CRC_ERROR
+    SENSOR_OK, SENSOR_TIMING_ERROR, SENSOR_CRC_ERROR
 } SensorError;
 
 typedef struct {
-	float data;
-	SensorState  sensorState;
-	SensorError sensorError;
+    float data;
+    SensorState sensorState;
+    SensorError sensorError;
 } sensor_t;
 
-uint8_t ds18b20_init(UART_HandleTypeDef* uart);
+uint8_t ds18b20_init(UART_HandleTypeDef *uart);
 void ds18b20_read_temperature_request();
 void ds18b20_read_temperature_callback();
 uint8_t sensor_get_temp();
 uint8_t sensor_get_state();
 
 #endif /* INC_DS18B20_H_ */
-
-
 

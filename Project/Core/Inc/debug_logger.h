@@ -19,9 +19,7 @@
 #define UART_DEBUG_TIMEOUT 10
 
 typedef enum {
-	INF = 1,
-	WRN = 2,
-	ERR = 3
+    INF = 1, WRN = 2, ERR = 3
 } MsgType;
 
 void debug_print(MsgType type, const char *format, ...);
