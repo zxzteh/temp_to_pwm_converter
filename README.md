@@ -27,7 +27,7 @@ The project was developed using STM32CubeMX and STM32CubeIDE. The HAL library wa
 ### Features:
 - **PWM Generation**: Configured to operate at 1 kHz frequency using timer.
 - **Temperature Reading**: Sample rate is 1 Hz with 12 bit temperature value
-- **Duty Cycle Calculation**: The duty cycle is calculated based on the temperature reading, with linear mapping between 0°C to 100°C and 0% to 100% duty cycle. Easy to convert HIGH PWM pulse to temerature. For example 270 us means 27 degrees.
+- **Duty Cycle Calculation**: The duty cycle is calculated based on the temperature reading, with linear mapping between 0°C to 100°C and 0% to 100% duty cycle. Easy to convert HIGH PWM pulse time to temperature value. For example 270 us means 27 degrees.
 
 ### Serial Output:
 The system outputs the temperature reading to the serial port for monitoring and debugging purposes.
